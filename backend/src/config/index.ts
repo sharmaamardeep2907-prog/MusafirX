@@ -29,6 +29,12 @@ export const config = {
     enabled: !!process.env.GEMINI_API_KEY,
   },
 
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    callbackUrl: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/api/auth/google/callback',
+  },
+
   googleMaps: {
     apiKey: process.env.GOOGLE_MAPS_API_KEY || '',
     enabled: !!process.env.GOOGLE_MAPS_API_KEY,
@@ -45,9 +51,17 @@ export const config = {
     apiSecret: process.env.CLOUDINARY_API_SECRET || '',
   },
 
-  google: {
-    clientId: process.env.GOOGLE_CLIENT_ID || '',
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+  smtp: {
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '587', 10),
+    user: process.env.SMTP_USER || '',
+    password: process.env.SMTP_PASSWORD || '',
+    from: process.env.SMTP_FROM || '"MusafirX" <noreply@musafirx.com>',
+    enabled: !!process.env.SMTP_USER && !!process.env.SMTP_PASSWORD,
+  },
+
+  otp: {
+    expiresInMinutes: parseInt(process.env.OTP_EXPIRES_IN_MINUTES || '10', 10),
   },
 
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
