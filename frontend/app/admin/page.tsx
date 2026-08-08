@@ -1,0 +1,18 @@
+'use client';
+import { useState } from 'react';
+import { useAuthStore } from '@/store/auth';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { Users, MapPin, Plane, BookOpen, Loader2, ShieldAlert, LayoutDashboard, Activity, TrendingUp } from 'lucide-react';
+
+export default function AdminPage(){
+ const{user,isAuthenticated,isLoading:aLoading}=useAuthStore();
+ const[tab,setTab]=useState('overview');
+ if(aLoading)return<div className="pt-24 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-saffron"/></div>;
+ if(!isAuthenticated||user?.role!=='ADMIN')return<div className="pt-24 pb-16 bg-ivory min-h-screen flex items-center justify-center"><div className="text-center"><ShieldAlert className="w-16 h-16 text-charcoal/20 mx-auto mb-4"/><h2 className="text-xl font-bold">Admin Access Required</h2><Link href="/auth/login" className="text-saffron mt-4 block">Login as admin</Link></div></div>;
+ const stats=[{icon:Users,label:'Total Users',value:'3',c:'text-blue-500'},{icon:MapPin,label:'Destinations',value:'40',c:'text-saffron'},{icon:Plane,label:'Trips',value:'12',c:'text-emerald'},{icon:BookOpen,label:'Guides',value:'8',c:'text-purple-500'}];
+ return(<div className="pt-24 pb-16 bg-ivory min-h-screen"><div className="max-w-7xl mx-auto px-4"><h1 className="text-3xl font-display font-bold text-navy mb-2">Admin Dashboard</h1><div className="flex gap-2 mb-8">{[{id:'overview',label:'Dashboard',icon:LayoutDashboard},{id:'users',label:'Users',icon:Users}].map(t=><button key={t.id} onClick={()=>setTab(t.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${tab===t.id?'bg-navy text-white':'bg-white text-charcoal border border-softgray'}`}><t.icon className="w-4 h-4"/>{t.label}</button>)}</div>
+  {tab==='overview'&&<><div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">{stats.map((s,i)=><motion.div key={i} initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:i*0.1}} className="neumorphic-card p-5"><s.icon className={`w-8 h-8 ${s.c} mb-3`}/><div className="text-2xl font-bold text-navy">{s.value}</div><div className="text-sm text-charcoal/60">{s.label}</div></motion.div>)}</div><div className="grid lg:grid-cols-2 gap-6"><div className="neumorphic-card p-6"><h3 className="font-bold mb-4"><Activity className="w-5 h-5 text-saffron inline mr-2"/>Recent Activity</h3><div className="space-y-3 text-sm">{['New user: Priya Patel','Trip created: Rajasthan','AI itinerary: Kerala'].map((a,i)=><div key={i} className="flex items-center gap-3 p-2"><div className="w-2 h-2 rounded-full bg-saffron"/>{a}</div>)}</div></div><div className="neumorphic-card p-6"><h3 className="font-bold mb-4"><TrendingUp className="w-5 h-5 text-saffron inline mr-2"/>Top Destinations</h3>{['Jaipur','Varanasi','Munnar','Leh','Goa'].map((d,i)=><div key={d} className="flex justify-between py-2 border-b border-softgray text-sm"><span>#{i+1} {d}</span><span className="text-charcoal/40">{80-i*15} visits</span></div>)}</div></div></>}
+  {tab==='users'&&<div className="neumorphic-card p-6"><h3 className="font-bold mb-4">Manage Users</h3>{[{name:'Rahul Sharma',email:'demo@musafirx.com',role:'USER'},{name:'Priya Patel',email:'priya@example.com',role:'USER'},{name:'Admin MusafirX',email:'admin@musafirx.com',role:'ADMIN'}].map(u=><div key={u.email} className="flex justify-between p-3 rounded-lg hover:bg-ivory"><div><p className="font-semibold text-navy text-sm">{u.name}</p><p className="text-xs text-charcoal/50">{u.email}</p></div><span className={`px-2 py-1 rounded-full text-xs ${u.role==='ADMIN'?'bg-purple-50 text-purple-600':'bg-blue-50 text-blue-600'}`}>{u.role}</span></div>)}</div>}
+  </div></div>);
+}
