@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-ivory text-charcoal antialiased; }
+  ::selection { @apply bg-saffron/20 text-navy; }
+}
+
+@layer components {
+  .glass { @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-sm; }
+  .glass-dark { @apply bg-navy/80 backdrop-blur-xl border border-navy-400/20 shadow-lg; }
+  .neumorphic { @apply bg-ivory shadow-[6px_6px_16px_#d1d5db,-6px_-6px_16px_#ffffff] rounded-2xl; }
+  .neumorphic-inset { @apply bg-ivory shadow-[inset_4px_4px_8px_#d1d5db,inset_-4px_-4px_8px_#ffffff] rounded-2xl; }
+  .neumorphic-card { @apply bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-softgray/50; }
+  .btn-primary { @apply bg-saffron text-white px-6 py-3 rounded-xl font-semibold hover:bg-saffron-600 active:scale-[0.98] transition-all duration-200 shadow-[0_4px_14px_rgba(255,138,0,0.3)]; }
+  .btn-secondary { @apply bg-navy text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-600 active:scale-[0.98] transition-all duration-200; }
+  .btn-outline { @apply border-2 border-navy text-navy px-6 py-3 rounded-xl font-semibold hover:bg-navy hover:text-white active:scale-[0.98] transition-all duration-200; }
+  .btn-ghost { @apply text-charcoal px-4 py-2 rounded-xl hover:bg-softgray/50 transition-all duration-200; }
+  .input-field { @apply w-full px-4 py-3 rounded-xl border border-softgray bg-white focus:outline-none focus:ring-2 focus:ring-saffron/50 focus:border-saffron placeholder:text-charcoal/40 transition-all duration-200; }
+  .card-hover { @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+}
+
+html { scroll-behavior: smooth; }
+.skeleton { @apply bg-softgray animate-pulse rounded-lg; }
